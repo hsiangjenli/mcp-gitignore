@@ -21,6 +21,9 @@ jobs:
         name: Copy README.md to docs/index.md
         run: |
           cp README.md docs/index.md
+      - name: Generate Documentation from OpenAPI Spec
+        run: |
+          ./scripts/build_docs.sh
       -
         name: Install dependencies
         run: |
