@@ -1,5 +1,5 @@
-site_name: Python MCP Template
-site_author: Your Name
+site_name: MCP Gitignore Tool
+site_author: Hsiang-Jen Li
 theme:
   name: readthedocs
 plugins:
