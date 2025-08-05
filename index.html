@@ -3,9 +3,9 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="description" content="None" /><meta name="author" content="Your Name" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="description" content="None" /><meta name="author" content="Hsiang-Jen Li" />
       <link rel="shortcut icon" href="img/favicon.ico" />
-    <title>Python MCP Template</title>
+    <title>MCP Gitignore Tool</title>
     <link rel="stylesheet" href="css/theme.css" />
     <link rel="stylesheet" href="css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
@@ -30,7 +30,7 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
     <div class="wy-side-scroll">
       <div class="wy-side-nav-search">
-          <a href="." class="icon icon-home"> Python MCP Template
+          <a href="." class="icon icon-home"> MCP Gitignore Tool
         </a><div role="search">
   <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
       <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
@@ -59,7 +59,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
       <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href=".">Python MCP Template</a>
+          <a href=".">MCP Gitignore Tool</a>
         
       </nav>
       <div class="wy-nav-content">
@@ -75,7 +75,114 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="index">Index</h1>
+                <div align="center">
+
+  <h1> Gitignore MCP Tool </h1>
+
+</div>
+
+<blockquote>
+<p>A MCP server for generating <code>.gitignore</code> files using gitignore.io API</p>
+</blockquote>
+<h2 id="features">🌟 Features</h2>
+<ul>
+<li><strong>Gitignore Generation</strong>: Generate <code>.gitignore</code> files</li>
+<li><strong>Template Listing</strong>: Browse all available gitignore templates</li>
+</ul>
+<h2 id="getting-started">🛠️ Getting Started</h2>
+<h3 id="environment-variables">Environment Variables</h3>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GITIGNORE_API_BASE</code></td>
+<td><code>https://www.toptal.com/developers/gitignore/api</code></td>
+<td>Base URL for gitignore.io API</td>
+</tr>
+</tbody>
+</table>
+<h3 id="local-development">Local Development</h3>
+<ul>
+<li>Install dependencies:</li>
+</ul>
+<pre><code class="language-bash">uv sync
+</code></pre>
+<ul>
+<li>(Optional) Set custom API endpoint:</li>
+</ul>
+<pre><code class="language-bash">export GITIGNORE_API_BASE=&quot;https://your-custom-api.com/api&quot;
+</code></pre>
+<ul>
+<li>Run the MCP server:</li>
+</ul>
+<pre><code class="language-bash">uv run --with fastmcp fastmcp run mcp_tools/main.py
+</code></pre>
+<h3 id="docker">Docker</h3>
+<ul>
+<li>Build the Docker image:</li>
+</ul>
+<pre><code class="language-bash">docker build -t mcp-gitignore:latest .
+</code></pre>
+<ul>
+<li>Run the container:</li>
+</ul>
+<pre><code class="language-bash">docker run -i --rm -p 8000:8000 mcp-gitignore:latest
+</code></pre>
+<ul>
+<li>Run with custom API endpoint:</li>
+</ul>
+<pre><code class="language-bash">docker run -i --rm -p 8000:8000 -e GITIGNORE_API_BASE=&quot;https://your-custom-api.com/api&quot; mcp-gitignore:latest
+</code></pre>
+<ul>
+<li>Run MCP Server:</li>
+</ul>
+<pre><code class="language-json">{
+  &quot;mcpServers&quot;: {
+    &quot;mcp-gitignore&quot;: {
+      &quot;command&quot;: &quot;docker&quot;,
+      &quot;args&quot;: [
+        &quot;run&quot;,
+        &quot;--rm&quot;,
+        &quot;-i&quot;,
+        &quot;-p&quot;,
+        &quot;8000:8000&quot;,
+        &quot;mcp-gitignore:latest&quot;
+      ],
+      &quot;env&quot;: {
+        &quot;GITIGNORE_API_BASE&quot;: &quot;https://www.toptal.com/developers/gitignore/api&quot;
+      }
+    }
+  }
+}
+</code></pre>
+<h2 id="api-endpoints">🎯 API Endpoints</h2>
+<h3 id="list-templates">List Templates</h3>
+<p><strong>GET</strong> <code>/gitignore/templates/</code></p>
+<p>List all available gitignore templates.</p>
+<h3 id="generate-gitignore">Generate .gitignore</h3>
+<p><strong>POST</strong> <code>/gitignore/generate/</code></p>
+<p>Generate .gitignore file based on templates.</p>
+<p><strong>Request Body:</strong></p>
+<pre><code class="language-json">{
+  &quot;templates&quot;: [&quot;python&quot;, &quot;visualstudiocode&quot;, &quot;macos&quot;],
+  &quot;output_path&quot;: &quot;.gitignore&quot;
+}
+</code></pre>
+<h2 id="documentation">📚 Documentation</h2>
+<ul>
+<li>Documentation is built using MkDocs and deployed to GitHub Pages.</li>
+<li>To build the documentation locally:</li>
+</ul>
+<pre><code class="language-bash">chmod +x scripts/build_docs.sh
+scripts/build_docs.sh
+mkdocs build
+</code></pre>
               
             </div>
           </div><footer>
@@ -124,5 +231,5 @@
 
 <!--
 MkDocs version : 1.6.1
-Build Date UTC : 2025-08-05 15:56:23.011151+00:00
+Build Date UTC : 2025-08-05 16:22:51.442066+00:00
 -->
