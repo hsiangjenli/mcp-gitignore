@@ -9,7 +9,8 @@ COPY . /workspace/
 ENV UV_PROJECT_ENVIRONMENT=/workspace/.venv \
     UV_PYTHON_DOWNLOADS=never \
     UV_COMPILE_BYTECODE=1 \
-    UV_LINK_MODE=copy
+    UV_LINK_MODE=copy \
+    GITIGNORE_API_BASE=https://www.toptal.com/developers/gitignore/api
 
 RUN --mount=type=cache,target=/root/.cache/uv \
     uv sync --locked --no-dev
