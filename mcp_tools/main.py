@@ -15,7 +15,9 @@ app = FastAPI(
     version="0.1.0",
 )
 
-GITIGNORE_API_BASE = "https://www.toptal.com/developers/gitignore/api"
+GITIGNORE_API_BASE = os.getenv(
+    "GITIGNORE_API_BASE", "https://www.toptal.com/developers/gitignore/api"
+)
 
 
 @app.get(
@@ -57,22 +59,11 @@ async def generate_gitignore(request: GitignoreGenerateRequest):
 
             gitignore_content = response.text
 
-        # Write to file
-        os.makedirs(
-            os.path.dirname(request.output_path)
-            if os.path.dirname(request.output_path)
-            else ".",
-            exist_ok=True,
-        )
-
-        with open(request.output_path, "w", encoding="utf-8") as f:
-            f.write(gitignore_content)
-
+        # 不直接寫入檔案，僅回傳內容
         return GitignoreGenerateResponse(
             success=True,
             message=f"Successfully generated .gitignore for templates: {', '.join(request.templates)}",
             content=gitignore_content,
-            file_path=os.path.abspath(request.output_path),
         )
 
     except httpx.HTTPStatusError as e:
