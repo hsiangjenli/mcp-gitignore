@@ -4,11 +4,11 @@
 
 </div>
 
-> A MCP server for generating .gitignore files using gitignore.io API
+> A MCP server for generating `.gitignore` files using gitignore.io API
 
 ## 🌟 Features
 
-- **Gitignore Generation**: Generate .gitignore files for 600+ templates (languages, IDEs, OS)
+- **Gitignore Generation**: Generate `.gitignore` files
 - **Template Listing**: Browse all available gitignore templates
 
 ## 🛠️ Getting Started
