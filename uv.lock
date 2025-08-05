@@ -668,6 +668,7 @@ source = { editable = "." }
 dependencies = [
     { name = "fastapi" },
     { name = "fastmcp" },
+    { name = "httpx" },
     { name = "mkdocs" },
     { name = "mkdocs-gen-files" },
     { name = "pydantic" },
@@ -677,6 +678,7 @@ dependencies = [
 requires-dist = [
     { name = "fastapi", specifier = ">=0.116.0" },
     { name = "fastmcp", specifier = ">=2.10.5" },
+    { name = "httpx", specifier = ">=0.25.0" },
     { name = "mkdocs", specifier = ">=1.6.1" },
     { name = "mkdocs-gen-files", specifier = ">=0.5.0" },
     { name = "pydantic", specifier = ">=2.11.7" },
