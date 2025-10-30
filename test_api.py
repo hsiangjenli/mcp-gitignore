@@ -5,6 +5,7 @@ Integration tests for the gitignore API endpoints.
 import pytest
 from fastapi.testclient import TestClient
 from unittest.mock import patch, AsyncMock
+from httpx import HTTPStatusError, Request, Response
 from mcp_tools.main import app
 
 client = TestClient(app)
@@ -231,7 +232,6 @@ def test_generate_with_invalid_template():
         mock_response.status_code = 404
         mock_response.raise_for_status = AsyncMock(side_effect=Exception("404"))
         
-        from httpx import HTTPStatusError, Request, Response
         mock_error = HTTPStatusError("404", request=Request("GET", "http://test"), response=Response(404))
         mock_client.return_value.__aenter__.return_value.get = AsyncMock(side_effect=mock_error)
         
