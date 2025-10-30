@@ -8,6 +8,7 @@ from mcp_tools.schemas import (
     GitignoreGenerateResponse,
     GitignoreListResponse,
 )
+from mcp_tools.utils import merge_gitignore
 
 app = FastAPI(
     title="Gitignore MCP Tool",
@@ -59,12 +60,31 @@ async def generate_gitignore(request: GitignoreGenerateRequest):
 
             gitignore_content = response.text
 
-        # 不直接寫入檔案，僅回傳內容
-        return GitignoreGenerateResponse(
-            success=True,
-            message=f"Successfully generated .gitignore for templates: {', '.join(request.templates)}",
-            content=gitignore_content,
-        )
+        # If existing content is provided, merge instead of replacing
+        if request.existing_content is not None:
+            merged_content, patterns_added = merge_gitignore(
+                request.existing_content, gitignore_content
+            )
+            
+            if patterns_added == 0:
+                message = f"No new patterns to add. All patterns from templates ({', '.join(request.templates)}) already exist."
+            else:
+                message = f"Added {patterns_added} new pattern(s) from templates: {', '.join(request.templates)}"
+            
+            return GitignoreGenerateResponse(
+                success=True,
+                message=message,
+                content=merged_content,
+                patterns_added=patterns_added,
+            )
+        else:
+            # No existing content - return the full template
+            return GitignoreGenerateResponse(
+                success=True,
+                message=f"Successfully generated .gitignore for templates: {', '.join(request.templates)}",
+                content=gitignore_content,
+                patterns_added=None,
+            )
 
     except httpx.HTTPStatusError as e:
         if e.response.status_code == 404:
